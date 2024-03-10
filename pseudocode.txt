@@ -1,0 +1,60 @@
+PROGRAM_START:
+    Set r0 to 0
+    Set len to 9
+    Set i to 1
+    Set j to 1
+    Set tmp to 0
+    Set array_start_index to the memory address of array
+    Set left_element to 0
+    Set right_element to 0
+
+    OUTER_LOOP_START:
+        -- Start of the outer loop: for (int i{ 1 }; i < n; ++i):
+        Set tmp to len - i
+        If tmp equals 0, jump to PROGRAM_END
+
+
+        -- Start of the inner loop: for (int j{ i }; j > 0 && x[j - 1] > x[j]; --j):
+        Set j to i
+        INNER_LOOP_START:
+                -- j > 0 check:
+            Set tmp to j
+            Set tmp to tmp - 1
+            If tmp is negative, jump to INNER_LOOP_END
+
+                -- x[j - 1] > x[j] check:
+            -- 1. Extract right and left elements.
+            Set tmp to array_start_index + j
+            Set right_element to tmp
+            Set tmp to tmp - 1
+            Set left_element to tmp
+
+            -- 2. Compare them.
+            If left_element <= right_element, jump to INNER_LOOP_END
+
+            -- 3. Swap left and right array elements.
+            Set tmp to array_start_index + j
+            Load value of left_element to MEMORY[tmp]
+            Set tmp to tmp - 1
+            Load value of right_element to MEMORY[tmp]
+
+            Set tmp to left
+            Set left to right
+            Set right to tmp
+
+            -- 4. Decrement the 'j' index.
+            Set j to j - 1
+            If true, jump to INNER_LOOP_START
+
+
+        INNER_LOOP_END:
+            Set i to i + 1
+            If true, jump to OUTER_LOOP_START
+
+
+
+        PROGRAM_END:
+            If true, jump to PROGRAM_START
+
+
+            [array is here]
